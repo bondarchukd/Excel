@@ -27,7 +27,7 @@ if ($_FILES["fileToUpload"]["size"] > 500000) {
 }
 
 // Allow certain file formats
-if($fileType != "xlsx" && $fileType != "xls") {
+if($fileType != "xlsx") {
     $uploadOk = 0;
     die("Sorry, only xlsx and xls files are allowed.");
 }else{
@@ -60,7 +60,7 @@ if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
  echo '<table border="1">';
  // Перебор строк
  foreach($list as $row){
-   echo '<tr>';
+   echo '<tr>'.$row.'</tr>';
    // Перебор столбцов
    foreach($row as $col){
      echo '<td>'.$col.'</td>';

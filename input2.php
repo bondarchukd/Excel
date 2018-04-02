@@ -17,7 +17,7 @@ $target_dir = 'uploads/';
 $target_file = $target_dir . basename($_FILES["filepath"]["name"]);
 $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
 
-require_once dirname(__FILE__) . '/Includes/Classes/PHPExcel/IOFactory.php';
+require_once dirname(__FILE__) . '/Classes/PHPExcel/IOFactory.php';
 
 $inputFileType = PHPExcel_IOFactory::identify($target_file);
 
