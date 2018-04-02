@@ -4,6 +4,7 @@
 // https://wp-kama.ru/question/kak-schitat-excel-fayl-php-skriptom
 
 // https://habrahabr.ru/post/140352/
+// https://stackoverflow.com/questions/11617077/looping-through-worksheets-with-phpexcel - HOW TO SWITCH WORKSHEET
 
 if(isset($_POST["submit"])) {
 
@@ -29,9 +30,9 @@ if ($_FILES["fileToUpload"]["size"] > 500000) {
 // Allow certain file formats
 if($fileType != "xlsx") {
     $uploadOk = 0;
-    die("Sorry, only xlsx and xls files are allowed.");
+    die("Sorry, only xlsx files are allowed.");
 }else{
-    echo "Succsessfully uploaded!<br><br>";
+    echo "Succsessfully uploaded!<br>Result is below.<br><br>";
 }
 
 // check moving uploaded file to direction
@@ -48,25 +49,15 @@ if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
     $objPHPExcel = $objReader->load($target_file); // upload data from the file to the object
     
     $result = $objPHPExcel->getActiveSheet()->toArray(); // download data from the object to the array
-    print_r($result);
+    // print_r($result);
 }
-//  foreach($result as $ar){
-//     $fio = $ar[0];
-//     $balans = $ar[1];
-//  }
-//  echo "$fio - $balans";
-
-    foreach($result as $list){
- echo '<table border="1">';
- // Перебор строк
- foreach($list as $row){
-   echo '<tr>'.$row.'</tr>';
-   // Перебор столбцов
-   foreach($row as $col){
-     echo '<td>'.$col.'</td>';
- }
- echo '</tr>';
- }
- echo '</table>';
-}
+echo "<table>";
+foreach ($result as $row) {
+   echo "<tr>";
+   foreach ($row as $column) {
+      echo "<td>$column</td>";
+   }
+   echo "</tr>";
+}    
+echo "</table>";
 ?>
