@@ -52,13 +52,15 @@ if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
     
     $objPHPExcel = $objReader->load($target_file); // upload data from the file to the object
 
-//   $result = $objPHPExcel->getActiveSheet()->toArray(); // download data from the object to the array
-   // print_r($result);
+  $result = $objPHPExcel->getActiveSheet()->toArray(); // download data from the object to the array
+   print_r($result);
+   echo "<br>";
+   print_r($result[1][0]);
 
     // $result = $objPHPExcel->getActiveSheet()->getCellByColumnAndRow(1, 2)->getValue();
     // print_r($result);
 
-    //download data from the object to the array which consists of data from all sheets
+    // download data from the object to the array which consists of data from all sheets
     foreach ($objPHPExcel->getWorksheetIterator() as $worksheet) {
         $lists[] = $worksheet->toArray();
     }

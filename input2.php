@@ -35,3 +35,15 @@ $val[$count++]=$objPHPExcel->getActiveSheet()->getCell('C'.$i)->getValue();
 }    
 ?>
 <!-- http://www.techchattr.com/how-to-read-excel-files-with-php -->
+
+<!-- Echoing array in table 
+echo "<table>";
+foreach ($res as $result){
+        echo "<tr>";
+        foreach ($result as $rValue){
+                echo "<td>{$rValue}</td>";
+        }
+        echo "</tr>";
+}
+echo "</table>";
+ -->
