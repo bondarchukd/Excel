@@ -9,6 +9,8 @@
 
 // https://stackoverflow.com/questions/21115191/reading-values-from-specific-range-of-cells-using-phpexcel/21121965
 
+// http://vinodkotiya.blogspot.ru/2011/09/php-pivot-logic-make-columns-from-row.html
+
 if(isset($_POST["submit"])) {
 
 }else{
@@ -23,7 +25,7 @@ $unic = md5(uniqid(rand(), true)); //generate random value for name of file
 
 $target_file = $target_dir . $unic . basename($_FILES["fileToUpload"]["name"]); // create unical name of file
 
-$fileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION)); // holds the file extension of the file (in lower case)
+$fileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION)); // holds the file's extension (in lower case)
 
 // Check file size
 if ($_FILES["fileToUpload"]["size"] > 500000) {
@@ -36,13 +38,13 @@ if($fileType != "xlsx") {
     $uploadOk = 0;
     die("Sorry, only xlsx files are allowed.");
 }else{
-    echo "Succsessfully uploaded!<br>Result is below.<br><br>";
+    echo "Succsessfully uploaded!<br><br>";
 }
 
 // check moving uploaded file to direction
 if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
     
-    require_once dirname(__FILE__) . '/Classes/PHPExcel.php'; //if file uploaded to needed direction go on 
+    require_once dirname(__FILE__) . '/Classes/PHPExcel.php'; //if file has uploaded to needed direction go on 
     
     // $result = array();
     
@@ -75,11 +77,19 @@ if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
         
         $sumArray[$key]=array_sum($array);
     }
-   echo "<br>SUM OF ARRAY OF SECOND WORKSHEET:<br>";
+   echo "<br>SUM OF ARRAY ON SECOND WORKSHEET:<br>";
    print_r($sumArray);
         echo "<br><br>";
 
-   // download data from the object to the array which consists of data from all sheets
+    // sort array according to zero index
+    usort($result, function($a,$b){
+    return ($a['0']-$b['0']);
+    });
+    echo "SORTED ARRAY BY ZERO INDEX ON SECOND WORKSHEET:<br>";
+    print_r($result);
+    echo "<br>";
+
+    // download data from the object to the array which consists of data from all sheets
     foreach ($objPHPExcel->getWorksheetIterator() as $worksheet) {
         $lists[] = $worksheet->toArray();
     }
