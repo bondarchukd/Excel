@@ -53,18 +53,38 @@ if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
     $objPHPExcel = $objReader->load($target_file); // upload data from the file to the object
 
   $result = $objPHPExcel->getActiveSheet()->toArray(); // download data from the object to the array
+   echo "ARRAY ON FIRST WORKSHEET:<br>";
    print_r($result);
    echo "<br>";
    print_r($result[1][0]);
+   echo "<br>";
+   echo array_sum($result);
+   echo "<br>";
 
-    // $result = $objPHPExcel->getActiveSheet()->getCellByColumnAndRow(1, 2)->getValue();
-    // print_r($result);
+   // change a spreadsheet’s active sheet
+   $objPHPExcel->setActiveSheetIndex(1);
+    $result = $objPHPExcel->getActiveSheet()->toArray();
+    echo "ARRAY ON SECOND WORKSHEET:<br>";
+    print_r($result);
+    echo "<br>";
 
-    // download data from the object to the array which consists of data from all sheets
+    // calculate sum of array
+    $sumArray=array();
+    foreach ($result as $key => $array) 
+    {
+        
+        $sumArray[$key]=array_sum($array);
+    }
+   echo "<br>SUM OF ARRAY OF SECOND WORKSHEET:<br>";
+   print_r($sumArray);
+        echo "<br><br>";
+
+   // download data from the object to the array which consists of data from all sheets
     foreach ($objPHPExcel->getWorksheetIterator() as $worksheet) {
         $lists[] = $worksheet->toArray();
     }
 
+    echo "<br>ALL ARRAYS ARE REPRESENTED IN TABLES:<br>";
     foreach($lists as $list){
  echo '<table border="1">';
  // loop rows
