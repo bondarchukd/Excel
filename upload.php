@@ -54,59 +54,86 @@ if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
     
     $objPHPExcel = $objReader->load($target_file); // upload data from the file to the object
 
-  $result = $objPHPExcel->getActiveSheet()->toArray(); // download data from the object to the array
-   echo "ARRAY ON FIRST WORKSHEET:<br>";
-   print_r($result);
-   echo "<br>";
-   print_r($result[1][0]);
-   echo "<br>";
-   echo array_sum($result);
-   echo "<br>";
+    $result = $objPHPExcel->getActiveSheet()->toArray(); // download data from the object to the array
 
-   // change a spreadsheet’s active sheet
-   $objPHPExcel->setActiveSheetIndex(1);
-    $result = $objPHPExcel->getActiveSheet()->toArray();
-    echo "ARRAY ON SECOND WORKSHEET:<br>";
+    //check count of worksheets
+    $sheetCount = $objPHPExcel->getSheetCount();
+    if ($sheetCount > 3) {
+        die("echo 'Sorry, your file is incorrect");
+
+    }
+
+    // check names of worksheets
+    $firstName = $objPHPExcel->getSheetByName('first');
+    $secondName = $objPHPExcel->getSheetByName('second');
+    
+    if ($firstName = null or $secondName = null) {
+        die("echo 'Sorry, your file is incorrect");
+    }
+
+    echo "ARRAY ON FIRST WORKSHEET:<br>";
     print_r($result);
     echo "<br>";
 
-    // calculate sum of array
-    $sumArray=array();
-    foreach ($result as $key => $array) 
+    //echoing array in table
+    echo "<br>ARRAY ON FIRST WORKSHEET IN TABLE FORM:<br>";
+    echo '<table border="1">';
+    for($i = 0; $i < count($result); $i++)
     {
-        
-        $sumArray[$key]=array_sum($array);
-    }
-   echo "<br>SUM OF ARRAY ON SECOND WORKSHEET:<br>";
-   print_r($sumArray);
-        echo "<br><br>";
+        for($j = 0; $j < count($result[$i]); $j++)
+        {
+          echo '<td>'. $result[$i][$j] .'</td>';
+        }
+        echo '</tr>';
+     }
+    echo '</table>';
 
-    // sort array according to zero index
+    // change an active worksheet
+    $objPHPExcel->setActiveSheetIndex(1);
+    $result = $objPHPExcel->getActiveSheet()->toArray();
+    echo "<br>ARRAY ON SECOND WORKSHEET:<br>";
+    print_r($result);
+    echo "<br>";
+
+    //sort array according to zero index
     usort($result, function($a,$b){
     return ($a['0']-$b['0']);
     });
-    echo "SORTED ARRAY BY ZERO INDEX ON SECOND WORKSHEET:<br>";
+    echo "<br>SORTED ARRAY BY ZERO INDEX ON SECOND WORKSHEET:<br>";
     print_r($result);
     echo "<br>";
+
+    //echoing array in table
+    echo "<br>SORTED ARRAY BY ZERO INDEX ON SECOND WORKSHEET IN TABLE FORM:<br>";
+    echo '<table border="1">';
+    for($i = 0; $i < count($result); $i++)
+     {
+        for($j = 0; $j < count($result[$i]); $j++)
+        {
+          echo '<td>'. $result[$i][$j] .'</td>';
+        }
+        echo '</tr>';
+     }
+    echo '</table>';
 
     // download data from the object to the array which consists of data from all sheets
     foreach ($objPHPExcel->getWorksheetIterator() as $worksheet) {
         $lists[] = $worksheet->toArray();
     }
 
-    echo "<br>ALL ARRAYS ARE REPRESENTED IN TABLES:<br>";
+    echo "<br>BOTH ARRAYS IN TABLE FORM:<br>";
     foreach($lists as $list){
- echo '<table border="1">';
- // loop rows
- foreach($list as $row){
-   echo '<tr>';
-   // loop columns
-   foreach($row as $col){
-     echo '<td>'.$col.'</td>';
- }
- echo '</tr>';
- }
- echo '</table>';
-}
+         echo '<table border="1">';
+         // loop rows
+         foreach($list as $row){
+           echo '<tr>';
+           // loop columns
+           foreach($row as $col){
+             echo '<td>'.$col.'</td>';
+         }
+         echo '</tr>';
+     }
+     echo '</table>';
+    }
 }
 ?>
