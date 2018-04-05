@@ -71,13 +71,12 @@ if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)){
         die("Structure of your file is not correct");
     }
     
+   
+    // change active sheet
+    $objPHPExcel->setActiveSheetIndex(0);
     
     // download data from the object to the array
     $result = $objPHPExcel->getActiveSheet()->toArray(); 
-    echo "ARRAY ON FIRST WORKSHEET:<br>";
-    print_r($result);
-    echo "<br>";
-
     
     //echoing array in table
     echo "<br>ARRAY ON FIRST WORKSHEET IN TABLE FORM:<br>";
@@ -94,21 +93,15 @@ if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)){
     // change an active worksheet
     $objPHPExcel->setActiveSheetIndex(1);
     $result = $objPHPExcel->getActiveSheet()->toArray();
-    echo "<br>ARRAY ON SECOND WORKSHEET:<br>";
-    print_r($result);
-    echo "<br>";
 
     
-    //sort array according to zero index
+    //sorting array by zero index
     usort($result, function($a,$b){
     return ($a['0']-$b['0']);
     });
-    echo "<br>SORTED ARRAY BY ZERO INDEX ON SECOND WORKSHEET:<br>";
-    print_r($result);
-    echo "<br>";
-
     
-    //echoing array in table
+    
+    //echoing sorted array in table
     echo "<br>SORTED ARRAY BY ZERO INDEX ON SECOND WORKSHEET IS IN TABLE FORM:<br>";
     echo '<table border="1">';
     for($i = 0; $i < count($result); $i++){
@@ -125,6 +118,8 @@ if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)){
         $lists[] = $worksheet->toArray();
     }
 
+    
+    //echoing both arrays in table
     echo "<br>BOTH ARRAYS ARE IN TABLE FORM:<br>";
     foreach($lists as $list){
          echo '<table border="1">';
