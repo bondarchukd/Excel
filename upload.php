@@ -68,8 +68,14 @@ if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
         die("Please rename your worksheets according to the rules");
     }
 
-    $result = $objPHPExcel->getActiveSheet()->toArray(); // download data from the object to the array
-
+    $highestColummFirst = $objPHPExcel->setActiveSheetIndex(0)->getHighestColumn();
+    $highestColummSecond = $objPHPExcel->setActiveSheetIndex(1)->getHighestColumn();
+    if ($highestColummFirst != "C" or $highestColummSecond != "B") {
+        die("Structure of your file is not correct");
+    }
+    
+    // download data from the object to the array
+    $result = $objPHPExcel->getActiveSheet()->toArray(); 
     echo "ARRAY ON FIRST WORKSHEET:<br>";
     print_r($result);
     echo "<br>";
@@ -103,7 +109,7 @@ if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
     echo "<br>";
 
     //echoing array in table
-    echo "<br>SORTED ARRAY BY ZERO INDEX ON SECOND WORKSHEET IN TABLE FORM:<br>";
+    echo "<br>SORTED ARRAY BY ZERO INDEX ON SECOND WORKSHEET IS IN TABLE FORM:<br>";
     echo '<table border="1">';
     for($i = 0; $i < count($result); $i++)
      {
@@ -120,7 +126,7 @@ if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
         $lists[] = $worksheet->toArray();
     }
 
-    echo "<br>BOTH ARRAYS IN TABLE FORM:<br>";
+    echo "<br>BOTH ARRAYS ARE IN TABLE FORM:<br>";
     foreach($lists as $list){
          echo '<table border="1">';
          // loop rows
