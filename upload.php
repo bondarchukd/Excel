@@ -46,7 +46,6 @@ if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
     
     require_once dirname(__FILE__) . '/Classes/PHPExcel.php'; //if file has uploaded to needed direction go on 
     
-    // $result = array();
     
     $file_type = PHPExcel_IOFactory::identify($target_file); // get type of file (xls, xlsx - needed fo correct proceeding
     
@@ -54,13 +53,11 @@ if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
     
     $objPHPExcel = $objReader->load($target_file); // upload data from the file to the object
 
-    $result = $objPHPExcel->getActiveSheet()->toArray(); // download data from the object to the array
-
     //check count of worksheets
     $sheetCount = $objPHPExcel->getSheetCount();
+    
     if ($sheetCount > 3) {
-        die("echo 'Sorry, your file is incorrect");
-
+        die("There are too much worksheets");
     }
 
     // check names of worksheets
@@ -68,8 +65,10 @@ if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
     $secondName = $objPHPExcel->getSheetByName('second');
     
     if ($firstName = null or $secondName = null) {
-        die("echo 'Sorry, your file is incorrect");
+        die("Please rename your worksheets according to the rules");
     }
+
+    $result = $objPHPExcel->getActiveSheet()->toArray(); // download data from the object to the array
 
     echo "ARRAY ON FIRST WORKSHEET:<br>";
     print_r($result);
