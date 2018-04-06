@@ -102,7 +102,7 @@ if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)){
     
     
     //echo sorted array in table
-    echo "<br>SORTED ARRAY BY ZERO INDEX ON SECOND WORKSHEET IS IN TABLE FORM:<br>";
+    echo "<br>SORTED ARRAY BY CLIENT ID ON SECOND WORKSHEET IS IN TABLE FORM:<br>";
     echo '<table border="1">';
     for($i = 0; $i < count($result); $i++){
         for($j = 0; $j < count($result[$i]); $j++){
