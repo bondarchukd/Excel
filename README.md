@@ -12,6 +12,6 @@ What I did:
 4. Create code for calculate and correct output 
 
 Step 1 realized in input.php file.<br>
-Step 2 realized in upload.php.
-Step 3 - I researched github and found some popular libraries for handling Excel files in PHP. I choose PHPExcel library because of very detailed guide and big community around this. This step realized in upload.php.
+Step 2 realized in upload.php.<br>
+Step 3 - I researched github and found some popular libraries for handling Excel files in PHP. I choose PHPExcel library because of very detailed guide and big community around this. This step realized in upload.php.<br>
 Step 4 - I just output multidimensional array. I tried to cut it to few arrays based on amount of clients and calculate sum of each array, but I didn't get right result.
