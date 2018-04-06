@@ -17,9 +17,7 @@ $target_dir = "uploads/"; //specifies the directory where the file is going to b
 
 $uploadOk = 1;
 
-$unic = md5(uniqid(rand(), true)); //generate random value for name of file
-
-$target_file = $target_dir . $unic . basename($_FILES["fileToUpload"]["name"]); // create unical name of file
+$target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]); // create unical name of file
 
 $fileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION)); // holds the file's extension (in lower case)
 
