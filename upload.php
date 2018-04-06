@@ -49,7 +49,7 @@ if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)){
     $objPHPExcel = $objReader->load($target_file); // upload data from the file to the object
 
     
-    //check count of worksheets
+    //check amount of worksheets
     $sheetCount = $objPHPExcel->getSheetCount();
     
     if ($sheetCount > 3){
@@ -92,16 +92,18 @@ if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)){
     
     // change an active worksheet
     $objPHPExcel->setActiveSheetIndex(1);
+
+    // download data from the object to the array
     $result = $objPHPExcel->getActiveSheet()->toArray();
 
     
-    //sorting array by zero index
+    //sort array by zero index
     usort($result, function($a,$b){
     return ($a['0']-$b['0']);
     });
     
     
-    //echoing sorted array in table
+    //echo sorted array in table
     echo "<br>SORTED ARRAY BY ZERO INDEX ON SECOND WORKSHEET IS IN TABLE FORM:<br>";
     echo '<table border="1">';
     for($i = 0; $i < count($result); $i++){
@@ -113,7 +115,7 @@ if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)){
     echo '</table>';
 
     
-    // download data from the object to the array which consists of data from all sheets
+    // download data from the object to the common array with data from all sheets
     foreach ($objPHPExcel->getWorksheetIterator() as $worksheet){
         $lists[] = $worksheet->toArray();
     }
